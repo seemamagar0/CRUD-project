@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Edit Student</h2>
+<div class="container alert alert-info">
+    <div class="row">
+        <div class="col-8">
+            <form method="POST">
+    {% csrf_token %}
+    <input name="name" value="{{ student.name }}"><br>
+    <input name="email" value="{{ student.email }}"><br>
+    <input name="address" value="{{ student.address }}"><br>
+    <button type="submit">Update</button>
+</form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
