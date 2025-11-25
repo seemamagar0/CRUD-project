@@ -1,0 +1,89 @@
+{% extends "drf_yasg/swagger-ui.html" %}
+
+{% block extra_scripts %}
+{{ block.super }}
+
+<script>
+    // Render Token UI Box
+    function displayToken(token) {
+        let container = document.getElementById("token-box");
+
+        if (!container) {
+            let header = document.querySelector(".swagger-ui .topbar");
+
+            container = document.createElement("div");
+            container.id = "token-box";
+            container.style.padding = "12px";
+            container.style.background = "#f4f4f4";
+            container.style.marginTop = "12px";
+            container.style.border = "1px solid #ddd";
+            container.style.borderRadius = "6px";
+            container.style.fontSize = "14px";
+            container.style.wordBreak = "break-all";
+            container.style.position = "relative";
+
+            header.appendChild(container);
+        }
+
+        // Render token + Copy button
+        container.innerHTML = `
+            <strong>Current Token:</strong><br>
+            <div style="margin-top: 8px; font-family: monospace;" id="token-text">
+                ${token}
+            </div>
+
+            <button id="copy-btn" 
+                style="
+                    margin-top: 10px; 
+                    padding: 6px 12px; 
+                    background: #4CAF50; 
+                    color: white; 
+                    border: none; 
+                    border-radius: 5px;
+                    cursor: pointer;
+                ">
+                Copy Token
+            </button>
+
+            <span id="copied-msg" 
+                style="
+                    margin-left: 10px; 
+                    color: #3d8f3d; 
+                    font-weight: bold; 
+                    display: none;
+                ">
+                ✔ Copied!
+            </span>
+        `;
+
+        // Handle Copy action
+        document.getElementById("copy-btn").onclick = function () {
+            const text = document.getElementById("token-text").textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const msg = document.getElementById("copied-msg");
+                msg.style.display = "inline";
+                setTimeout(() => msg.style.display = "none", 1500);
+            });
+        };
+    }
+
+    // Detect OAuth token updates from Swagger UI
+    const interval = setInterval(() => {
+        if (window.ui && window.ui.authSelectors) {
+            clearInterval(interval);
+
+            window.ui.authSelectors.authorized().subscribe((auth) => {
+                try {
+                    const token = auth.oauth2.token.access_token;
+                    if (token) {
+                        displayToken("Bearer " + token);
+                    }
+                } catch (e) {
+                    console.log("Token not available yet.");
+                }
+            });
+        }
+    }, 500);
+</script>
+
+{% endblock %}

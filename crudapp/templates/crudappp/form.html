@@ -1,33 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
-
-{% block content %}
-<div style="width: 400px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
-    <h2 style="text-align:center;">Add New Item</h2>
-
-    <form method="POST">
-        {% csrf_token %}
-
-        <label>Name:</label><br>
-        <input type="text" name="name" required style="width: 100%; padding: 8px; margin-bottom: 12px;"><br>
-
-        <label>Email:</label><br>
-        <input type="email" name="email" required style="width: 100%; padding: 8px; margin-bottom: 12px;"><br>
-
-        <label>Address:</label><br>
-        <input type="text" name="address" required style="width: 100%; padding: 8px; margin-bottom: 12px;"><br>
-
-        <button type="submit" style="width: 100%; padding: 10px; background: green; color: white; border: none; border-radius: 5px;">
-            Save
-        </button>
-    </form>
-
-    <br>
-    <a href="/" style="text-decoration: none; color: blue;">← Back Home</a>
-</div>
-{% endblock %} 
-
-{% comment %} {% extends "base.html" %}
 {% block content %}
 <h1> Register here </h1> 
 <form method="POST" action = "{% url 'form' %}">
@@ -47,4 +18,4 @@
     <button type="submit"> Submit </button>
 </form>
 
-{% endblock content %} {% endcomment %}
+{% endblock content %}

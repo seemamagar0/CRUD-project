@@ -1,16 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Edit Student</h2>
+<h1>Edit Registration</h1>
+
 <div class="container alert alert-info">
     <div class="row">
         <div class="col-8">
             <form method="POST">
-    {% csrf_token %}
-    <input name="name" value="{{ student.name }}"><br>
-    <input name="email" value="{{ student.email }}"><br>
-    <input name="address" value="{{ student.address }}"><br>
-    <button type="submit">Update</button>
-</form>
+                {% csrf_token %}
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+
+                <!-- render the form fields -->
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
         </div>
     </div>
 </div>
